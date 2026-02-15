@@ -10,7 +10,6 @@ const port = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
-
 // --- PostgreSQL Connection Pool ---
 const dbUrl = process.env.DATABASE_URL;
 
@@ -21,13 +20,6 @@ if (!dbUrl) {
 
 const pool = new Pool({
     connectionString: dbUrl,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
-// --- PostgreSQL Connection Pool ---
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
     ssl: {
         rejectUnauthorized: false
     }
