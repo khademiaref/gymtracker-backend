@@ -18,6 +18,13 @@ if (!dbUrl) {
     process.exit(1); 
 }
 
+console.log("DEBUG: Testing DATABASE_URL format...");
+if (process.env.DATABASE_URL) {
+    console.log("URL exists. Starts with:", process.env.DATABASE_URL.substring(0, 10));
+} else {
+    console.log("URL is UNDEFINED or EMPTY.");
+}
+
 const pool = new Pool({
     connectionString: dbUrl,
     ssl: {
