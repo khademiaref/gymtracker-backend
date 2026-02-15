@@ -11,18 +11,19 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // --- PostgreSQL Connection Pool ---
-const dbUrl = process.env.DATABASE_URL;
+let dbUrl = process.env.DATABASE_URL;
+
+console.log("DEBUG: Testing DATABASE_URL format...");
 
 if (!dbUrl) {
     console.error("FATAL ERROR: DATABASE_URL is not defined in environment variables.");
     process.exit(1); 
 }
 
-console.log("DEBUG: Testing DATABASE_URL format...");
-if (process.env.DATABASE_URL) {
-    console.log("URL exists. Starts with:", process.env.DATABASE_URL.substring(0, 10));
-} else {
-    console.log("URL is UNDEFINED or EMPTY.");
+// FIX: Node's URL parser can be picky about 'postgresql' vs 'postgres'
+if (dbUrl.startsWith('postgresql://')) {
+    console.log("Normalizing protocol from postgresql:// to postgres://");
+    dbUrl = dbUrl.replace('postgresql://', 'postgres://');
 }
 
 const pool = new Pool({
